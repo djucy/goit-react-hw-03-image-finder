@@ -11,6 +11,8 @@ import searchNameApi from './services/searchName-api';
 import ImageGallery from './components/ImageGallery/ImageGallery';
 import Modal from './components/Modal/Modal';
 import ModalImage from './components/ModalImage/ModalImage';
+import Section from './components/Section/Section';
+import Text from './components/Text';
 import './App.css';
 
 const Status = {
@@ -101,21 +103,20 @@ export default class App extends PureComponent {
 
     if (status === 'idle') {
       return (
-        <>
+        <Section>
           <Searchbar onSubmit={this.handleSearchFormSubmit}></Searchbar>
-          <div>
-            <p>Please, enter pictures' name...</p>
-          </div>
+          <Text text={'Please, enter pictures name...'}></Text>
           <ToastContainer transition={Flip} />
-        </>
+        </Section>
       );
     }
     if (status === 'pending') {
       return (
-        <div>
-          <Spinner></Spinner>
-          <p>Please,wait. We are searching the pictures for you</p>
-        </div>
+        <Section>
+          <Spinner
+            text={'Please,wait. We are searching the pictures for you'}
+          ></Spinner>
+        </Section>
       );
     }
     if (status === 'rejected') {
@@ -127,7 +128,7 @@ export default class App extends PureComponent {
     }
     if (status === 'resolved') {
       return (
-        <>
+        <Section>
           <Searchbar onSubmit={this.handleSearchFormSubmit}></Searchbar>
           <ImageGallery images={images} onClick={this.onOpenImage} />
           {images.length >= 12 && images.length !== 0 && (
@@ -146,7 +147,7 @@ export default class App extends PureComponent {
             </Modal>
           )}
           <ToastContainer transition={Flip} />
-        </>
+        </Section>
       );
     }
   }

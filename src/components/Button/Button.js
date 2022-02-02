@@ -1,4 +1,5 @@
 import s from './Button.module.css';
+import PropTypes from 'prop-types';
 
 export default function Button({ onLoadImages }) {
   return (
@@ -8,6 +9,9 @@ export default function Button({ onLoadImages }) {
   );
 }
 
+Button.propTypes = {
+  onLoadImages: PropTypes.func.isRequired,
+};
 // import { Component } from "react";
 
 // export default class Button extends Component {
