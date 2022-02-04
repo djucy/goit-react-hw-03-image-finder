@@ -12,7 +12,7 @@ import ImageGallery from './components/ImageGallery/ImageGallery';
 import Modal from './components/Modal/Modal';
 import ModalImage from './components/ModalImage/ModalImage';
 import Section from './components/Section/Section';
-import Text from './components/Text';
+import Text from './components/Text/Text';
 import './App.css';
 
 const Status = {
@@ -32,12 +32,13 @@ export default class App extends PureComponent {
     id: '',
     largeImageURL: '',
     tags: '',
+    error: '',
   };
 
   componentDidUpdate(prevProps, prevState) {
     const prevName = prevState.searchName;
 
-    const { page, searchName } = this.state;
+    const { page, searchName, images } = this.state;
 
     if (prevName !== searchName) {
       this.setState({ status: Status.PENDING });
@@ -50,10 +51,13 @@ export default class App extends PureComponent {
             page: 1,
           }),
         )
-        .catch(error => this.setState({ error, status: Status.REJECTED }));
+        .catch(error => {
+          if (images.length === 0) {
+            this.setState({ error, status: Status.REJECTED });
+          }
+        });
     }
   }
-
   handleSearchFormSubmit = searchName => {
     this.setState({ searchName });
   };
@@ -64,17 +68,19 @@ export default class App extends PureComponent {
 
     searchNameApi
       .fetchSearchName({ searchName, page })
-      .then(newImages => {
+      .then(newArrayImages => {
         this.setState(prevState => {
           return {
-            images: [...prevState.images, ...newImages],
+            images: [...prevState.images, ...newArrayImages],
             page: prevState.page + 1,
             status: Status.RESOLVED,
           };
         });
       })
 
-      .catch(error => this.setState({ error, status: Status.REJECTED }));
+      .catch(error => {
+        this.setState({ error, status: Status.REJECTED });
+      });
     this.scrollToBottom();
   };
 
@@ -83,15 +89,17 @@ export default class App extends PureComponent {
   }
 
   toggleModal = () => {
-    // return <Modal></Modal>
     this.setState(state => ({
       showModal: !state.showModal,
     }));
   };
+
   onOpenImage = (id, largeImageURL, tags) => {
     this.setState({ id, largeImageURL, tags });
+
     this.toggleModal();
   };
+
   onCloseModal = e => {
     if (e.currentTurget === e.turget) {
       this.props.toggleModal();
@@ -99,13 +107,22 @@ export default class App extends PureComponent {
   };
 
   render() {
-    const { images, status, showModal, largeImageURL, id, tags } = this.state;
+    const {
+      images,
+      status,
+      showModal,
+      largeImageURL,
+      id,
+      tags,
+      searchName,
+      error,
+    } = this.state;
 
     if (status === 'idle') {
       return (
         <Section>
           <Searchbar onSubmit={this.handleSearchFormSubmit}></Searchbar>
-          <Text text={'Please, enter pictures name...'}></Text>
+          <Text text={'Please, enter pictures name...'} />
           <ToastContainer transition={Flip} />
         </Section>
       );
@@ -121,9 +138,11 @@ export default class App extends PureComponent {
     }
     if (status === 'rejected') {
       return (
-        <div>
-          <p>O-o...we have a problem...</p>
-        </div>
+        <Section>
+          {images.length === 0 && (
+            <Text text={'O-o...we have a problem...'}></Text>
+          )}
+        </Section>
       );
     }
     if (status === 'resolved') {

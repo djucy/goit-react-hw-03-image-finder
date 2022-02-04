@@ -1,0 +1,8 @@
+.Text {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 30px;
+  font-weight: 700;
+  color: rgb(92, 60, 36);
+}

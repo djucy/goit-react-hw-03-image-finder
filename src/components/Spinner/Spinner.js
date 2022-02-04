@@ -6,7 +6,9 @@ import s from './Spinner.module.css';
 const Spinner = ({ text }) => {
   return (
     <div className={s.Spinner__position}>
-      <BallTriangle color="#168b64" height={110} width={110} />
+      <span className={s.Spinner__box}>
+        <BallTriangle color="#168b64" height={110} width={110} />
+      </span>
       <p className={s.Spinner__text}>{text}</p>
     </div>
   );

@@ -1,4 +1,4 @@
-import ImageGallery from '../components/ImageGallery/ImageGallery';
+import Text from '../components/Text/Text';
 
 function fetchSearchName(name, page) {
   return fetch(
@@ -9,7 +9,8 @@ function fetchSearchName(name, page) {
         return response.json();
       }
       return Promise.rejected(
-        new Error(`Pictures with name ${name} not found`),
+        // new Error(`Pictures with name ${name} not found`),
+        new Error(<Text text={`Pictures with name ${name} not found`} />),
       );
     })
     .then(response => {
