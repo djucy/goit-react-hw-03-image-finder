@@ -40,5 +40,3 @@ ImageGalleryItem.propTypes = {
   tags: PropTypes.string.isRequired,
   onOpenImage: PropTypes.func,
 };
-
-//  onClick={onOpenImage}
