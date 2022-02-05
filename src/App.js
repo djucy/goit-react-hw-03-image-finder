@@ -45,17 +45,6 @@ export default class App extends Component {
 
     if (prevName !== searchName) {
       this.setState({ status: Status.PENDING, images: [] });
-      //   searchNameApi
-      //     .fetchSearchName(searchName, page)
-      //     .then(newImages =>
-      //       this.setState({
-      //         images: [...newImages],
-      //         status: Status.RESOLVED,
-      //         page: 1,
-      //       }),
-      //     )
-      //     .catch(error => this.setState({ error, status: Status.REJECTED }));
-
       this.onLoadImages();
       scroll.scrollToTop();
       this.setState({ page: 1 });
@@ -117,16 +106,7 @@ export default class App extends Component {
   };
 
   render() {
-    const {
-      images,
-      status,
-      showModal,
-      largeImageURL,
-      id,
-      tags,
-      searchName,
-      error,
-    } = this.state;
+    const { images, status, showModal, largeImageURL, id, tags } = this.state;
 
     return (
       <Section>
@@ -157,138 +137,3 @@ export default class App extends Component {
     );
   }
 }
-
-// componentDidUpdate(prevProps, prevState) {
-//     const prevName = prevState.searchName;
-
-//     const { page, searchName, images} = this.state;
-
-//     if (prevName !== searchName) {
-//       this.setState({ status: Status.PENDING });
-//       searchNameApi
-//         .fetchSearchName(searchName, page)
-//         .then(newImages =>
-//           this.setState({
-//             images: [...newImages],
-//             status: Status.RESOLVED,
-//             page: 1,
-//           }),
-//         )
-//         .catch(error => this.setState({ error, status: Status.REJECTED }));
-//     }
-
-//   }
-
-//   handleSearchFormSubmit = searchName => {
-//     this.setState({ searchName });
-//   };
-
-//   onLoadImages = () => {
-//     this.setState({ status: Status.PENDING });
-//     const { page, searchName } = this.state;
-
-//     searchNameApi
-//       .fetchSearchName({ searchName, page })
-//       .then(newArrayImages => {
-//         this.setState(prevState => {
-//           return {
-//             images: [...prevState.images, ...newArrayImages],
-//             page: prevState.page + 1,
-//             status: Status.RESOLVED,
-//           };
-//         });
-//       })
-
-//       .catch(error => {
-//         this.setState({ error, status: Status.REJECTED });
-//       });
-//     this.scrollToBottom();
-//   };
-
-//   scrollToBottom() {
-//     scroll.scrollToBottom();
-//   }
-
-//   toggleModal = () => {
-//     this.setState(state => ({
-//       showModal: !state.showModal,
-//     }));
-//   };
-
-//   onOpenImage = (id, largeImageURL, tags) => {
-//     this.setState({ id, largeImageURL, tags });
-
-//     this.toggleModal();
-//   };
-
-//   onCloseModal = e => {
-//     if (e.currentTurget === e.turget) {
-//       this.props.toggleModal();
-//     }
-//   };
-
-//   render() {
-//     const {
-//       images,
-//       status,
-//       showModal,
-//       largeImageURL,
-//       id,
-//       tags,
-//       searchName,
-//       error,
-
-//     } = this.state;
-
-//     if (status === 'idle') {
-//       return (
-//         <Section>
-//           <Searchbar onSubmit={this.handleSearchFormSubmit}></Searchbar>
-//           <Text text={'Please, enter pictures name...'} />
-//           <ToastContainer transition={Flip} />
-//         </Section>
-//       );
-//     }
-//     if (status === 'pending') {
-//       return (
-//         <Section>
-//           <Spinner
-//             text={'Please,wait. We are searching the pictures for you'}
-//           ></Spinner>
-//         </Section>
-//       );
-//     }
-//     if (status === 'rejected') {
-//       return (
-//         <Section>
-//           {error &&(<Text text={'We have a problem...pelase,try again...'}/>)}
-//         </Section>
-//       );
-//     }
-//     if (status === 'resolved') {
-//       return (
-//         <Section>
-//           <Searchbar onSubmit={this.handleSearchFormSubmit}></Searchbar>
-//           <ImageGallery images={images} onClick={this.onOpenImage} />
-//           {images.length >= 12 && images.length !== 0 && (
-//             <Button onLoadImages={this.onLoadImages} />
-//           )}
-//           {images.length === 0 && (< Text text={`Photo name ${searchName} not found`} />)}
-//           {showModal && (
-//             <Modal onClose={this.toggleModal}>
-//               {
-//                 <ModalImage
-//                   url={largeImageURL}
-//                   id={id}
-//                   alt={tags}
-//                   onClick={this.onCloseModal}
-//                 ></ModalImage>
-//               }
-//             </Modal>
-//           )}
-//           <ToastContainer transition={Flip} />
-//         </Section>
-//       );
-//     }
-//   }
-// }
